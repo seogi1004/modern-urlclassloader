@@ -2,7 +2,6 @@ package com.example.loader;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -11,14 +10,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CompatibleURLClassLoader {
-    private static CompatibleURLClassLoader loader = null;
+public class CompatibleClassLoader {
     private List<URL> jarList = new ArrayList<>();
     private Map<String, URLClassLoader> jarMap = new HashMap<>();
+    private static CompatibleClassLoader loader = null;
 
-    public static CompatibleURLClassLoader getInstance() {
+    public static CompatibleClassLoader getInstance() {
         if(loader == null) {
-            loader = new CompatibleURLClassLoader();
+            loader = new CompatibleClassLoader();
         }
 
         return loader;
@@ -30,22 +29,28 @@ public class CompatibleURLClassLoader {
     }
 
     public void addFile(String path) {
-        File f = new File(path);
+        addFile(new File(path));
+    }
 
+    public void addFile(File file) {
         try {
-            addURL(f.toURI().toURL());
+            addURL(file.toURI().toURL());
         } catch (IOException e) {
             System.out.println(e);
         }
     }
 
-    public URLClassLoader getLoader(URL url) {
+    public ClassLoader getLoader(URL url) {
         return jarMap.get(url.getPath());
     }
 
-    public URLClassLoader getLoader(String path) {
+    public ClassLoader getLoader(String path) {
+        return getLoader(new File(path));
+    }
+
+    public ClassLoader getLoader(File file) {
         try {
-            return getLoader(new File(path).toURI().toURL());
+            return getLoader(file.toURI().toURL());
         } catch (MalformedURLException e) {
             System.out.println(e);
         }
@@ -58,17 +63,7 @@ public class CompatibleURLClassLoader {
 
         URLClassLoader loader = new URLClassLoader(jarList.toArray(new URL[jarList.size()]), thread.getContextClassLoader());
         thread.setContextClassLoader(loader);
-    }
 
-    public Constructor<?> getConstructor(String className) {
-        try {
-            return Thread.currentThread().getContextClassLoader().loadClass(className).getConstructor();
-        } catch(ClassNotFoundException e) {
-            System.out.println(e);
-        } catch (NoSuchMethodException e) {
-            System.out.println(e);
-        }
-
-        return null;
+        jarList.clear();
     }
 }
