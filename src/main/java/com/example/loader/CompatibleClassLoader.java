@@ -40,15 +40,15 @@ public class CompatibleClassLoader {
         }
     }
 
-    public ClassLoader getLoader(URL url) {
+    public URLClassLoader getLoader(URL url) {
         return jarMap.get(url.getPath());
     }
 
-    public ClassLoader getLoader(String path) {
+    public URLClassLoader getLoader(String path) {
         return getLoader(new File(path));
     }
 
-    public ClassLoader getLoader(File file) {
+    public URLClassLoader getLoader(File file) {
         try {
             return getLoader(file.toURI().toURL());
         } catch (MalformedURLException e) {

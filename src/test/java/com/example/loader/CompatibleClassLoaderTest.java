@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URLClassLoader;
 import java.nio.charset.StandardCharsets;
 
 import static org.junit.Assert.assertEquals;
@@ -30,7 +31,7 @@ public class CompatibleClassLoaderTest {
 
     @Test
     public void testGetResourceInJar() throws IOException {
-        ClassLoader ucl = loader.getLoader(DEFAULT_PATH + "helloworld.jar");
+        URLClassLoader ucl = loader.getLoader(DEFAULT_PATH + "helloworld.jar");
         InputStream is = ucl.getResourceAsStream("README.md");
 
         assertEquals("Hello, World", IOUtils.toString(is, StandardCharsets.UTF_8));
@@ -38,7 +39,7 @@ public class CompatibleClassLoaderTest {
 
     @Test
     public void testInvokeMethod() throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InstantiationException, InvocationTargetException {
-        ClassLoader ucl = loader.getLoader(DEFAULT_PATH + "helloworld.jar");
+        URLClassLoader ucl = loader.getLoader(DEFAULT_PATH + "helloworld.jar");
         Class<?> cls = Class.forName("HelloWorld", true, ucl);
         Method m = cls.getMethod("getMessage");
 
@@ -47,7 +48,7 @@ public class CompatibleClassLoaderTest {
 
     @Test
     public void testInvokeStaticMethod() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        ClassLoader ucl = loader.getLoader(DEFAULT_PATH + "calculator.jar");
+        URLClassLoader ucl = loader.getLoader(DEFAULT_PATH + "calculator.jar");
         Class<?> cls = Class.forName("com.example.Calculator", true, ucl);
         Method m2 = cls.getMethod("add", int.class, int.class);
 
