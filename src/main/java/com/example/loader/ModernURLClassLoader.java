@@ -10,14 +10,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CompatibleClassLoader {
+public class ModernURLClassLoader {
     private List<URL> jarList = new ArrayList<>();
     private Map<String, URLClassLoader> jarMap = new HashMap<>();
-    private static CompatibleClassLoader loader = null;
+    private static ModernURLClassLoader loader = null;
 
-    public static CompatibleClassLoader getInstance() {
+    public static ModernURLClassLoader getInstance() {
         if(loader == null) {
-            loader = new CompatibleClassLoader();
+            loader = new ModernURLClassLoader();
         }
 
         return loader;

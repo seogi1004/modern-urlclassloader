@@ -13,14 +13,14 @@ import java.nio.charset.StandardCharsets;
 
 import static org.junit.Assert.assertEquals;
 
-public class CompatibleClassLoaderTest {
+public class ModernURLClassLoaderTest {
     private static final String DEFAULT_PATH = System.getProperty("user.dir") + "/src/test/resources/";
     private static final String[] JAR_PATHS = new String[] { "calculator.jar", "helloworld.jar" };
-    private static CompatibleClassLoader loader;
+    private static ModernURLClassLoader loader;
 
     @BeforeClass
     public static void setup() {
-        loader = CompatibleClassLoader.getInstance();
+        loader = ModernURLClassLoader.getInstance();
 
         for(String jarPath : JAR_PATHS) {
             loader.addFile(DEFAULT_PATH + jarPath);
