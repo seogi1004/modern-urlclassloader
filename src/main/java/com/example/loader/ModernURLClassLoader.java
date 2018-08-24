@@ -61,8 +61,9 @@ public class ModernURLClassLoader {
     public void loadJarFiles() {
         Thread thread = Thread.currentThread();
 
-        URLClassLoader loader = new URLClassLoader(jarList.toArray(new URL[jarList.size()]), thread.getContextClassLoader());
-        thread.setContextClassLoader(loader);
+        ClassLoader clsLoader = thread.getContextClassLoader();
+        URLClassLoader urlLoader = new URLClassLoader(jarList.toArray(new URL[jarList.size()]), clsLoader);
+        thread.setContextClassLoader(urlLoader);
 
         jarList.clear();
     }
