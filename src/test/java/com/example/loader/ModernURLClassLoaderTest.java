@@ -18,7 +18,6 @@ public class ModernURLClassLoaderTest {
     private static final String DEFAULT_PATH = System.getProperty("user.dir") + "/src/test/resources/";
     private static final String[] JAR_PATHS = new String[] { "calculator.jar", "helloworld.jar" };
     private static ModernURLClassLoader loader;
-    private static URLClassLoader testLoader;
 
     @BeforeClass
     public static void setup() {
@@ -28,7 +27,7 @@ public class ModernURLClassLoaderTest {
             loader.addFile(DEFAULT_PATH + jarPath);
         }
 
-        testLoader = loader.loadJarFiles();
+        loader.loadJarFiles();
     }
 
     @Test
@@ -55,12 +54,5 @@ public class ModernURLClassLoaderTest {
         Method m2 = cls.getMethod("add", int.class, int.class);
 
         assertEquals(3, m2.invoke(null, 1, 2));
-    }
-
-    @Test
-    public void testGetResourceInJars() throws IOException {
-        InputStream is = testLoader.getResourceAsStream("README.md");
-
-        assertNotEquals("Hello, World", IOUtils.toString(is, StandardCharsets.UTF_8));
     }
 }
