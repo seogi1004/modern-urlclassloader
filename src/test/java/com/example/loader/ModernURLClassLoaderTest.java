@@ -12,7 +12,6 @@ import java.net.URLClassLoader;
 import java.nio.charset.StandardCharsets;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 public class ModernURLClassLoaderTest {
     private static final String DEFAULT_PATH = System.getProperty("user.dir") + "/src/test/resources/";
