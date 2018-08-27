@@ -58,7 +58,7 @@ public class ModernURLClassLoaderTest {
     }
 
     @Test
-    public void testGetResourceInJar2() throws IOException {
+    public void testGetResourceInJars() throws IOException {
         InputStream is = testLoader.getResourceAsStream("README.md");
 
         assertNotEquals("Hello, World", IOUtils.toString(is, StandardCharsets.UTF_8));
