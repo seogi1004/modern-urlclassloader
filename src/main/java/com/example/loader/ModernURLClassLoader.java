@@ -58,7 +58,7 @@ public class ModernURLClassLoader {
         return null;
     }
 
-    public void loadJarFiles() {
+    public URLClassLoader loadJarFiles() {
         Thread thread = Thread.currentThread();
 
         ClassLoader clsLoader = thread.getContextClassLoader();
@@ -66,5 +66,6 @@ public class ModernURLClassLoader {
         thread.setContextClassLoader(urlLoader);
 
         jarList.clear();
+        return urlLoader;
     }
 }
